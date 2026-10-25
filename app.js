@@ -172,6 +172,20 @@
     ["#f3eaff", "#d2b9f7", "#a98be0"]
   ];
 
+  var G = C.gems || {};
+  var sizeMin = G.sizeMin || 8;
+  var sizeMax = Math.max(G.sizeMax || 18, sizeMin);
+  var speed = G.speed || 1;
+  var gemImg = null; // 載入成功才會有值，否則畫內建晶石
+  if (G.image) {
+    var im = new Image();
+    im.onload = function () {
+      gemImg = im;
+      if (reduce) { ctx.clearRect(0, 0, W, H); gems.forEach(drawGem); }
+    };
+    im.src = G.image;
+  }
+
   function resize() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = window.innerWidth;
@@ -179,7 +193,7 @@
     cv.width = W * dpr;
     cv.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var want = W < 500 ? 20 : 34;
+    var want = W < 500 ? (G.countMobile || 20) : (G.countDesktop || 34);
     while (gems.length < want) gems.push(make(true));
     gems.length = want;
   }
@@ -188,8 +202,8 @@
     return {
       x: Math.random() * W,
       y: initial ? Math.random() * H : -40 - Math.random() * 80,
-      size: 8 + Math.random() * 10,
-      vy: 0.35 + Math.random() * 0.7,
+      size: sizeMin + Math.random() * (sizeMax - sizeMin),
+      vy: (0.35 + Math.random() * 0.7) * speed,
       sway: Math.random() * Math.PI * 2,
       amp: 0.3 + Math.random() * 0.6,
       rot: (Math.random() - 0.5) * 0.6,
@@ -216,6 +230,15 @@
     ctx.save();
     ctx.translate(g.x, g.y);
     ctx.rotate(g.rot);
+    if (gemImg) {
+      // 用自己的圖片：高度約為 s 的 2.4 倍，寬度依原圖比例
+      if (G.spin) ctx.scale(k, 1);
+      ctx.globalAlpha = g.alpha;
+      var h = s * 2.4, w = h * (gemImg.naturalWidth / gemImg.naturalHeight);
+      ctx.drawImage(gemImg, -w / 2, -h / 2, w, h);
+      ctx.restore();
+      return;
+    }
     ctx.scale(k, 1);
     ctx.globalAlpha = g.alpha;
     ctx.shadowColor = "rgba(210,150,240,.55)";
