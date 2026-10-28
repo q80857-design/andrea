@@ -67,7 +67,7 @@ window.CONFIG = {
     countMobile: 20,
     countDesktop: 34,
     speed: 1,
-    spin: ture
+    spin: false
   },
 
   /* ---------- 信封與情書 ---------- */
