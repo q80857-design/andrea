@@ -62,8 +62,8 @@ window.CONFIG = {
      spin：true 會像硬幣一樣左右翻轉，false 只輕輕搖晃旋轉 */
   gems: {
     image: "gem.png",
-    sizeMin: 12,
-    sizeMax: 20,
+    sizeMin: 8,
+    sizeMax: 12,
     countMobile: 20,
     countDesktop: 34,
     speed: 1,
