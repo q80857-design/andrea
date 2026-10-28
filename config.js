@@ -62,12 +62,12 @@ window.CONFIG = {
      spin：true 會像硬幣一樣左右翻轉，false 只輕輕搖晃旋轉 */
   gems: {
     image: "gem.png",
-    sizeMin: 24,
-    sizeMax: 32,
+    sizeMin: 12,
+    sizeMax: 20,
     countMobile: 20,
     countDesktop: 34,
     speed: 1,
-    spin: false
+    spin: ture
   },
 
   /* ---------- 信封與情書 ---------- */
